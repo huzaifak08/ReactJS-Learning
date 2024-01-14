@@ -20,7 +20,7 @@ function App() {
       {/* <Card imageUrl="" Obj={ourObj} arr={ourArr} /> (Example to pass arr and obj)  */}
 
       <Card username="Huzaifa" btnText="View Profile" />
-      <Card username="Huzaifa" btnText="Click me" />
+      <Card username="Kamran" btnText="Click me" />
     </>
   );
 }
