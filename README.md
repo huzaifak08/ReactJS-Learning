@@ -1,8 +1,8 @@
-# React + Vite
+# Introduction:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+We are using "Vite" with React for efficient use of react.
 
-Currently, two official plugins are available:
+# Components:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+--> The component name and the component file name must start with Capital Letter.
+--> Component is a function that returns a html code.
