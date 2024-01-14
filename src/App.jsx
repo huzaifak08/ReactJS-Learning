@@ -1,38 +1,31 @@
 import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import Card from "./components/Card";
 
 function App() {
-  // let counter = 0;  Here comes the hooks to update the UI
+  // Obj to pass as argument
+  let ourObj = {
+    username: "Huzaifa",
+    age: 22,
+  };
 
-  let [counter, setCounter] = useState(0); // counter is variable and setCounter is a function
-
-  const addValue = ()=>{
-    // counter = counter + 1;
-
-    setCounter(counter+1);
-  }
-
-  const removeValue = ()=>{
-    // counter = counter - 1;
-
-    if(counter > 0){
-      setCounter(counter-1);
-    }
-
-   
-  }
+  // Array to pass as argument
+  let ourArr = [1, 2, 3];
 
   return (
     <>
-    <h1>Counter App Example</h1>
+      <h1 className="bg-green-400 text-black rounded-xl p-5 mb-2">
+        Hello to Tailwind CSS
+      </h1>
 
-    <h3>Counter Value: {counter}</h3>
+      {/* <Card imageUrl="" Obj={ourObj} arr={ourArr} /> (Example to pass arr and obj)  */}
 
-    <button onClick={addValue}>Add Value</button>
-
-    <br />
-    <button onClick={removeValue}>Remove Value</button>
+      <Card username="Huzaifa" btnText="View Profile" />
+      <Card username="Huzaifa" btnText="Click me" />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
