@@ -1,27 +1,49 @@
-import "./App.css";
-import Card from "./components/Card";
+import { useState } from "react";
 
 function App() {
-  // Obj to pass as argument
-  let ourObj = {
-    username: "Huzaifa",
-    age: 22,
-  };
-
-  // Array to pass as argument
-  let ourArr = [1, 2, 3];
+  let [color, setColor] = useState("olive");
 
   return (
-    <>
-      <h1 className="bg-green-400 text-black rounded-xl p-5 mb-2">
-        Hello to Tailwind CSS
-      </h1>
+    <div
+      className="w-full h-screen duration-200"
+      style={{ backgroundColor: color }}
+    >
+      <div className="fixed flex flex-wrap justify-center bottom-12 inset-x-0 px-2">
+        <div className="flex flex-wrap justify-center gap-3 shadow-lg bg-white px-3 py-2 rounded-lg">
+          <button
+            className="outline-none px-4 py-1 rounded-full text-white"
+            style={{ backgroundColor: "red" }}
+            onClick={() => setColor("red")}
+          >
+            Red
+          </button>
 
-      {/* <Card imageUrl="" Obj={ourObj} arr={ourArr} /> (Example to pass arr and obj)  */}
+          <button
+            className="outline-none px-4 py-1 rounded-full text-white"
+            style={{ backgroundColor: "green" }}
+            onClick={() => setColor("green")}
+          >
+            Green
+          </button>
 
-      <Card username="Huzaifa" btnText="View Profile" />
-      <Card username="Kamran" btnText="Click me" />
-    </>
+          <button
+            className="outline-none px-4 py-1 rounded-full text-black"
+            style={{ backgroundColor: "yellow" }}
+            onClick={() => setColor("yellow")}
+          >
+            Yellow
+          </button>
+
+          <button
+            className="outline-none px-4 py-1 rounded-full text-white"
+            style={{ backgroundColor: "blue" }}
+            onClick={() => setColor("blue")}
+          >
+            Blue
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
