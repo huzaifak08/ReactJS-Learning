@@ -1,105 +1,82 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState } from "react";
+import { InputBox } from "./components";
+import useCurrencyInfo from "./hooks/userCurrencyInfo";
 
 function App() {
-  let [lenght, setLength] = useState(8);
-  let [noAllowed, setNoAllowed] = useState(false);
-  let [charAllowed, setCharAllowed] = useState(false);
-  let [password, setPassword] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [from, setFrom] = useState("usd");
+  const [to, setTo] = useState("inr");
+  const [convertedAmount, setConvertedAmount] = useState(0);
 
-  // UseRef hook:
-  const passRef = useRef(null);
+  const currencyInfo = useCurrencyInfo(from);
 
-  // Optimize and save the values in Chache
-  const passwordGenerator = useCallback(() => {
-    let pass = "";
-    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuwxyz";
+  const options = Object.keys(currencyInfo);
 
-    if (noAllowed) str += "0123456789";
-    if (charAllowed) str += "@(){}#!$%^&*";
+  const swap = () => {
+    setFrom(to);
+    setTo(from);
+    setConvertedAmount(amount);
+    setAmount(convertedAmount);
+  };
 
-    for (let i = 1; i <= lenght; i++) {
-      let char = Math.floor(Math.random() * str.length + 1);
-
-      pass += str.charAt(char);
-    }
-
-    setPassword(pass);
-  }, [lenght, noAllowed, charAllowed, setPassword]);
-
-  // Run the Project (init state)
-  useEffect(() => {
-    passwordGenerator();
-  }, [lenght, noAllowed, charAllowed, passwordGenerator]);
-
-  const copyPassToClip = useCallback(() => {
-    passRef.current?.select(); // change color of copied text
-    // passRef.current?.setSelectionRange(0, 4);
-
-    window.navigator.clipboard.writeText(password);
-  }, [password]);
+  const convert = () => {
+    setConvertedAmount(amount * currencyInfo[to]);
+  };
 
   return (
-    <>
-      <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 text-orange-500 bg-gray-700">
-        <h1 className="text-white text-center">Password Generator</h1>
-        <div className="flex shadow rounded-lg overflow-hidden mb-4 my-3">
-          <input
-            type="text"
-            value={password}
-            className="outline-none w-full py-1 px-3"
-            placeholder="Password"
-            readOnly
-            ref={passRef}
-          />
-          <button
-            className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0"
-            onClick={copyPassToClip}
+    <div
+      className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat"
+      style={{
+        backgroundImage: `url('https://images.pexels.com/photos/3532540/pexels-photo-3532540.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`,
+      }}
+    >
+      <div className="w-full">
+        <div className="w-full max-w-md mx-auto border border-gray-60 rounded-lg p-5 backdrop-blur-sm bg-white/30">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              convert();
+            }}
           >
-            Copy
-          </button>
-        </div>
-
-        <div className="flex text-sm gap-x-2">
-          <div className="flex items-center gap-x-1">
-            <input
-              type="range"
-              min={8}
-              max={100}
-              value={length}
-              className="cursor-pointer"
-              onChange={(e) => {
-                setLength(e.target.value);
-              }}
-            />
-            <label>Lenght: {lenght}</label>
-          </div>
-
-          <div className="flex items-center gap-x-1">
-            <input
-              type="checkbox"
-              defaultChecked={noAllowed}
-              id="numberInput"
-              onChange={(e) => {
-                setNoAllowed((prev) => !prev);
-              }}
-            />
-            <label>Numbers</label>
-          </div>
-
-          <div className="flex items-center gap-x-1">
-            <input
-              type="checkbox"
-              defaultChecked={charAllowed}
-              id="characterInput"
-              onChange={(e) => {
-                setCharAllowed((prev) => !prev);
-              }}
-            />
-            <label>Characters</label>
-          </div>
+            <div className="w-full mb-1">
+              <InputBox
+                label="From"
+                amount={amount}
+                currencyOptions={options}
+                onCurrencyChange={(currency) => setAmount(amount)}
+                selectCurrency={from}
+                onAmountChange={(amount) => setAmount(amount)}
+              />
+            </div>
+            <div className="relative w-full h-0.5">
+              <button
+                type="button"
+                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white rounded-md bg-blue-600 text-white px-2 py-0.5"
+                onClick={swap}
+              >
+                swap
+              </button>
+            </div>
+            <div className="w-full mt-1 mb-4">
+              <InputBox
+                label="To"
+                amount={convertedAmount}
+                currencyOptions={options}
+                onCurrencyChange={(currency) => setTo(currency)}
+                selectCurrency={from}
+                amountDisable
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg"
+            >
+              Convert {from.toUpperCase()} to {to.toUpperCase()}
+            </button>
+          </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
